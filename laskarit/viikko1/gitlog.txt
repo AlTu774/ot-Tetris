@@ -1,0 +1,112 @@
+commit 9da007b59117741256ea7a3f29fcde38fad56706
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Tue Nov 8 00:43:51 2022 +0200
+
+    file1 poistettu file2 muutettu file22
+
+ tiedostoja/file3 | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit c1a0193fc03f2798cbe02b32c0e68f6a6c012137
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Tue Nov 8 00:29:57 2022 +0200
+
+    tiedostoja
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit f08405f80b86988f258f757be2a81d672a6799fa
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:57:05 2022 +0200
+
+    muutoksia
+
+ eka.txt    | 2 +-
+ kolmas.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit faffb649332348a24c4ebf34beaf6e77a63148ac
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:43:38 2022 +0200
+
+    udelleennimetty tiedosto
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 52adf90454265d84cc7606be59201e2d8c3dbc12
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:42:23 2022 +0200
+
+    toinen poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 6c3d9a146a486a6e4a733d7644d3e76329e38459
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:39:43 2022 +0200
+
+    tekstin muokkaus
+
+ tiedosto.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 74121b26e2557e107a4ef22dbe5083fcd4e20ad2
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:38:23 2022 +0200
+
+    teksti lisäys
+
+ tiedosto.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+commit 1b6916ce155cb1ad91611e1f026e4b9250268819
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:32:47 2022 +0200
+
+    stuff
+
+ stuff/t.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit ee7d3c44c0eb49f15649df63a5e32fe470d4297c
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:31:31 2022 +0200
+
+    kolmas ja toinen muutettu
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit d0f479896b17ac89199aae74941d507fc3f65707
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:30:04 2022 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 7bacfc275c8b596bd5f6a57503bd38031f8d12c6
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:28:15 2022 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit c525bce958f91228fc00d997812eaf031c762015
+Author: AlTu774 <alisa.t1@outlook.com>
+Date:   Mon Nov 7 23:25:01 2022 +0200
+
+    tiedosto.tct luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
