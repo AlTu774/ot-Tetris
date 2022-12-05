@@ -1,7 +1,6 @@
 import pygame
 from stage import Stage
 
-
 class Renderer():
     def __init__(self, stage, display):
         self.stage = stage
@@ -14,7 +13,9 @@ class Renderer():
         for y in range(0,self.stage_lenght):
             for x in range(0,self.stage_width):
                 if self.stage.map[y][x] == 0:
-                    pygame.draw.rect(self.display,(255,255,255),(50+x*30,50+y*30,30,30),1)
-        
-        pygame.display.update()
+                    pygame.draw.rect(self.display,(255,255,255),(190+x*30,50+y*30,30,30),1)
+                elif self.stage.map[y][x] == 1:
+                    pygame.draw.rect(self.display,(250,250,250),(190+x*30,50+y*30,30,30))
+                    
+        pygame.display.update()           
 
