@@ -1,7 +1,7 @@
 import pygame
 import unittest
 
-from ..stage import Stage
+from stage import Stage
 
 class Test_Block(unittest.TestCase):
     def setUp(self):

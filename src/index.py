@@ -2,6 +2,7 @@ import pygame
 from stage import Stage
 from clock import Clock
 from renderer import Renderer
+from game_loop import GameLoop
 
 def main():
     display = pygame.display.set_mode((900,700))
@@ -15,12 +16,10 @@ def main():
     renderer = Renderer(stage, display)
     stage.add_new_block()
     start_time = 0
+    game_loop = GameLoop(stage)
 
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-        
+        game_loop.events()    
         
         if (clock.get_ticks() - start_time) > 600:
             stage.drop_block()
@@ -28,9 +27,7 @@ def main():
         
         display.fill((0,0,0))
         renderer.render_stage()
-
-
-
+        
     pygame.quit()
 
 if __name__ == "__main__":
