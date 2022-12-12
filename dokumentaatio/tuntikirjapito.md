@@ -2,5 +2,6 @@
 
 | päivä | aika | mitä tein  |
 | :----:|:-----| :-----|
-| 29.12. | 3    | luokkien suunnittelu |
+| 29.11. | 3    | luokkien suunnittelu |
 | 5.12.  | 5    | palikoiden lisääminen kenttään ja niiden tippuminen |
+| 7.12.  | 2    | palikoiden liikuttaminen |
