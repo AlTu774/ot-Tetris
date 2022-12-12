@@ -13,3 +13,6 @@ class GameLoop():
                     self.stage.move_block("R")
                 if event.key == pygame.K_LEFT:
                     self.stage.move_block("L")
+                if event.key == pygame.K_UP:
+                    self.stage.rotate_block()
+                

@@ -16,6 +16,8 @@ class Renderer():
                     pygame.draw.rect(self.display,(255,255,255),(190+x*30,50+y*30,30,30),1)
                 elif self.stage.map[y][x] == 1:
                     pygame.draw.rect(self.display,(250,250,250),(190+x*30,50+y*30,30,30))
+                elif self.stage.map[y][x] == 2:
+                    pygame.draw.rect(self.display,(50,50,50),(190+x*30,50+y*30,30,30))
                     
         pygame.display.update()           
 
