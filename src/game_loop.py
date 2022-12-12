@@ -1,5 +1,4 @@
 import pygame
-from stage import Stage
 
 class GameLoop():
     def __init__(self, stage):
