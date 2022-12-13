@@ -1,10 +1,15 @@
 import pygame
 
 class GameLoop():
+    """Luokka, joka lukee pelaajan syötteen ja joko tekee muutoksia pelikenttään tai lopetetaan peli.
+    
+    Attributes:
+    stage: Luokka saa pelikentän johon muutokset tehdään."""
     def __init__(self, stage):
         self.stage = stage
 
     def events(self):
+        """Käy läpi pelaajaan syötteen."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

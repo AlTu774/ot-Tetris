@@ -2,6 +2,17 @@ import pygame
 from blocks import Blocks
 
 class Stage():
+    """Luokka jollaa ylläpidetään pelikenttän tilaa.
+
+    Attributes:
+        map: Kartoitus kentästä. Kentässä 0 on tyhjä tila, 1 on palikka ja 2 on pysähtynyt palikka.
+        
+        rotation_b: eli rotation block, jota käytetään palikan sijainnin muistamiseen kentässä,
+        ja palikan kääntämiseen.
+        
+        rotations: Sisältää palikan eri asennot ja tiedon sen hetkisestä asennosta.
+
+     """
     def __init__(self):
         self.map = [[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -24,51 +35,28 @@ class Stage():
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]]
 
-        self.rotation_map = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-
         self.rotation_b = (0, (0,0))
         self.rotations = []
     
     def add_new_block(self):
+        """Lisää uuden palikan kenttään."""
         block = Blocks()
         block = block.generate_random_block()
         for y in range(0,4):
             for x in range(0,5):
                 if block[0][y][x] == 3:
-                    self.rotation_map[y][x+5+3] = 3
                     self.rotation_b = (0,(y, (x+5+3)))
                 else:
                     self.map[y][x+3] = block[0][y][x]
         self.rotations = block
     
     def drop_block(self):
+        """Tiputtaa palikkaa."""
         for y in range(19,-1,-1):
             for x in range(0,10):
                 if self.map[y][x] == 1:
                     if y == 19 or self.map[y+1][x] == 2:
                         self.freeze_block()
-                        self.rotation_map = []
-                        for i in range(20):
-                            self.rotation_map.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
                         self.add_new_block()
                         return
 
@@ -80,6 +68,10 @@ class Stage():
         self.move_rotation_b("D")
     
     def move_block(self, direction):
+        """Liikuttaa palikkaa joko oikealle tai vasemmalle.
+        Args:
+            direction: Siirron suunta, joko "R" tai "L".
+        """
         if direction == "R":
             for y in range(0,20):
                 if self.map[y][9] == 1:
@@ -119,6 +111,7 @@ class Stage():
             self.move_rotation_b("L")          
 
     def freeze_block(self):
+        """Pysäyttää palikan paikoilleen."""
         for y in range(0,20):
             for x in range(0,10):
                 if self.map[y][x] == 1:
@@ -126,11 +119,13 @@ class Stage():
         
     
     def move_rotation_b(self, dir):
+        """Liikuttaa kääntämiseen käytettävää palikkaa oikealle, vasemmalle tai alas. 
+        Args:
+            dir: Siirron suunta, joko "R", "L" tai "D".
+        """
         if dir == "D":
             old = self.rotation_b
             self.rotation_b = (old[0], ((old[1][0]+1),old[1][1]))
-            self.rotation_map[old[1][0]][old[1][1]] = 0
-            self.rotation_map[self.rotation_b[1][0]][self.rotation_b[1][1]] = 3
             return
         
         if dir == "L":
@@ -140,11 +135,10 @@ class Stage():
 
         old = self.rotation_b
         self.rotation_b = (old[0], (old[1][0],(old[1][1]+x)))
-        self.rotation_map[old[1][0]][old[1][1]] = 0
-        self.rotation_map[self.rotation_b[1][0]][self.rotation_b[1][1]] = 3
 
 
     def rotate_block(self):
+        """Kääntää palikkaa."""
         block_y = self.rotation_b[1][0]
         block_x = self.rotation_b[1][1] -5
         move = False

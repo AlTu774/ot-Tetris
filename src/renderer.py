@@ -1,15 +1,24 @@
 import pygame
-from stage import Stage
 
 class Renderer():
+    """Luokka, joka renderöi pelikentän.
+    
+    Args:
+        stage = Pelikenttä
+        stage.lenght = Pelikentän korkeus
+        stage.widght = Pelikentän leveys
+        block = palikan Surface alue
+        display = Ruutu jolle kenttä piirretään
+    """
     def __init__(self, stage, display):
         self.stage = stage
         self.stage_lenght = len(self.stage.map)
         self.stage_width = len(self.stage.map[0])
-        self.block = pygame.Surface((50,50))
+        self.block = pygame.Surface((30,30))
         self.display = display
 
     def render_stage(self):
+        """Renderöi ruudelle pelikentän"""
         for y in range(0,self.stage_lenght):
             for x in range(0,self.stage_width):
                 if self.stage.map[y][x] == 0:
