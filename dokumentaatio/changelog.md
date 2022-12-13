@@ -8,3 +8,5 @@
 
 ## Viikko 6
 - Pelaaja voi liikuttaa palikoita kentässä
+- Pelaaja voi käännellä palikoita
+- Palikat pysähtyvät osuessaan toisiin pysähtyneisiin palikoihin
