@@ -17,12 +17,31 @@ def main():
     stage.add_new_block()
     start_time = 0
     game_loop = GameLoop(stage)
+    speeds = [100, 600, 500, 450, 400, 350, 300, 250, 200, 150, 100]
+    speed_level = (1,0)
+    speed_up = 0
+    score = 0
+
 
     while running:
-        game_loop.events()    
-        
-        if (clock.get_ticks() - start_time) > 600:
-            stage.drop_block()
+
+        game_loop.events()
+
+        if game_loop.drop == True:
+            speed = speeds[0]
+        if game_loop.drop == False:
+            speed = speeds[speed_level[0]]
+
+        if (clock.get_ticks() - start_time) > speed:
+            new_score = stage.drop_block()
+            if new_score != None:
+                score += new_score
+            
+            if (score - speed_level[1] > 100):
+                if speed_level[0] < 10:
+                    old = speed_level
+                    speed_level = (old[0]+1,old[1]+100)
+
             start_time = clock.get_ticks()
         
         display.fill((0,0,0))

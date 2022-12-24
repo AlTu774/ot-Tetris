@@ -84,9 +84,9 @@ class Blocks():
         [0,0,1,0,0],
         [0,0,1,0,0],
         [0,0,0,0,0]],
-        [[3,0,1,0,0],
-        [0,0,1,0,0],
-        [0,0,1,1,0],
+        [[3,0,0,1,0],
+        [0,1,1,1,0],
+        [0,0,0,0,0],
         [0,0,0,0,0]]]
 
         self.J = [[[3,0,1,0,0],
@@ -101,9 +101,9 @@ class Blocks():
         [0,0,1,0,0],
         [0,0,1,0,0],
         [0,0,0,0,0]],
-        [[3,0,1,0,0],
-        [0,0,1,0,0],
-        [0,1,1,0,0],
+        [[3,0,0,0,0],
+        [0,1,1,1,0],
+        [0,0,0,1,0],
         [0,0,0,0,0]]]
 
         self.O = [[[3,1,1,0,0],
@@ -123,6 +123,10 @@ class Blocks():
         [0,0,0,0,0],
         [0,0,0,0,0]]]
 
+        self.spare = []
+        self.rotation_b = (0, (0,0))
+        self.rotations = []
+
         
     
     def generate_random_block(self):
@@ -135,3 +139,21 @@ class Blocks():
         pick = random.randint(0,6)
         new_block = list[pick]
         return new_block
+
+    def move_rotation_b(self, dir):
+        """Liikuttaa kääntämiseen käytettävää tilaa oikealle, vasemmalle tai alas. 
+        Args:
+            dir: Siirron suunta, joko "R", "L" tai "D".
+        """
+        if dir == "D":
+            old = self.rotation_b
+            self.rotation_b = (old[0], ((old[1][0]+1),old[1][1]))
+            return
+        
+        if dir == "L":
+            x = -1
+        elif dir == "R":
+            x = 1
+
+        old = self.rotation_b
+        self.rotation_b = (old[0], (old[1][0],(old[1][1]+x)))

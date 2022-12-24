@@ -37,18 +37,71 @@ class Stage():
 
         self.rotation_b = (0, (0,0))
         self.rotations = []
+        self.block = Blocks()
     
     def add_new_block(self):
         """Lisää uuden palikan kenttään."""
-        block = Blocks()
-        block = block.generate_random_block()
+        block = self.block.generate_random_block()
         for y in range(0,4):
             for x in range(0,5):
                 if block[0][y][x] == 3:
-                    self.rotation_b = (0,(y, (x+5+3)))
+                    self.block.rotation_b = (0,(y, (x+5+3)))
                 else:
                     self.map[y][x+3] = block[0][y][x]
-        self.rotations = block
+        self.block.rotations = block
+    
+    def switch_block(self):
+        if self.block.spare == []:
+            self.block.spare = self.block.rotations
+            self.clear_stage(self.map)
+            self.add_new_block()
+
+        else:
+            old_block = self.block.rotations
+            new_block = self.block.spare
+            rotationb = self.block.rotation_b
+            if self.block.rotation_b[1][1] > 10:
+                rotationb = (self.block.rotation_b[0], (self.block.rotation_b[1][0],10))
+            if self.block.rotation_b[1][0] > 16:
+                return
+            error = self.error_check(rotationb[1],new_block[0])
+            if error:
+                return
+            
+            self.block.spare = old_block
+            self.block.rotations = new_block
+            self.block.rotation_b = rotationb
+            self.clear_stage(self.map)
+            self.insert_block(self.block.rotation_b[1],self.block.rotations[0])
+            if rotationb[1][1] == 10:
+                self.move_block("R")
+
+
+    
+    def insert_block(self,rotation_b,block):
+        move = False
+        y2 = -1
+        x2 = -1
+        yb = rotation_b[0]
+        xb = rotation_b[1]-5
+        if xb < 0:
+            xb = 0
+            move = True
+        for y in range(yb,(yb+4)):
+            y2 += 1
+            for x in range(xb,xb+5):
+                x2 += 1
+                if self.map[y][x] == 2:
+                    continue
+                if block[y2][x2] == 3:
+                    continue
+                self.map[y][x] = block[y2][x2]
+            x2 = -1
+            
+        if move:
+            self.move_block("L")
+
+            
     
     def drop_block(self):
         """Tiputtaa palikkaa."""
@@ -56,16 +109,16 @@ class Stage():
             for x in range(0,10):
                 if self.map[y][x] == 1:
                     if y == 19 or self.map[y+1][x] == 2:
-                        self.freeze_block()
+                        score = self.freeze_block()
                         self.add_new_block()
-                        return
+                        return score
 
         for y in range(19,-1,-1):
             for x in range(0,10):
                 if self.map[y][x] == 1:
                     self.map[y][x] = 0
                     self.map[y+1][x] = 1
-        self.move_rotation_b("D")
+        self.block.move_rotation_b("D")
     
     def move_block(self, direction):
         """Liikuttaa palikkaa joko oikealle tai vasemmalle.
@@ -89,7 +142,7 @@ class Stage():
                     if self.map[y][x] == 1:
                         self.map[y][x] = 0
                         self.map[y][x+1] = 1
-            self.move_rotation_b("R")
+            self.block.move_rotation_b("R")
 
         elif direction == "L":
             for y in range(0,20):
@@ -108,7 +161,7 @@ class Stage():
                     if self.map[y][x] == 1:
                         self.map[y][x] = 0
                         self.map[y][x-1] = 1
-            self.move_rotation_b("L")          
+            self.block.move_rotation_b("L")          
 
     def freeze_block(self):
         """Pysäyttää palikan paikoilleen."""
@@ -116,84 +169,88 @@ class Stage():
             for x in range(0,10):
                 if self.map[y][x] == 1:
                     self.map[y][x] = 2
-        
+        return self.check_rows()
     
-    def move_rotation_b(self, dir):
-        """Liikuttaa kääntämiseen käytettävää palikkaa oikealle, vasemmalle tai alas. 
-        Args:
-            dir: Siirron suunta, joko "R", "L" tai "D".
-        """
-        if dir == "D":
-            old = self.rotation_b
-            self.rotation_b = (old[0], ((old[1][0]+1),old[1][1]))
-            return
+    def check_rows(self):
+        score = 1
+        for y in range(19,0,-1):
+            while self.map[y] == [2,2,2,2,2,2,2,2,2,2]:
+                score += 10
+                for y2 in range(y,1,-1):
+                    prev = self.map[y2-1][:]
+                    self.map[y2] = prev
+        return score
+    
+    def clear_stage(self,map1):
+        for y in range(0,20):
+            for x in range(0,10):
+                if map1[y][x] == 1:
+                    map1[y][x] = 0
+        return
         
-        if dir == "L":
-            x = -1
-        elif dir == "R":
-            x = 1
-
-        old = self.rotation_b
-        self.rotation_b = (old[0], (old[1][0],(old[1][1]+x)))
-
-
     def rotate_block(self):
         """Kääntää palikkaa."""
-        block_y = self.rotation_b[1][0]
-        block_x = self.rotation_b[1][1] -5
+        block_y = self.block.rotation_b[1][0]
+        block_x = self.block.rotation_b[1][1] -5
         move = False
-        old = self.rotation_b
+        old = self.block.rotation_b
         if block_x < 0:
             block_x = 0
-            self.rotation_b = (self.rotation_b[0], (self.rotation_b[1][0],0))
+            self.block.rotation_b = (self.block.rotation_b[0], (self.block.rotation_b[1][0],0))
             move = True
             dir = "L"    
         if block_x > 5:
             block_x = 5
-            self.rotation_b = (self.rotation_b[0], (self.rotation_b[1][0],10))
+            self.block.rotation_b = (self.block.rotation_b[0], (self.block.rotation_b[1][0],10))
             move = True
             dir = "R"
         if block_y > 16:
+            self.block.rotation_b = old
             return
-        if self.rotation_b[0]+1 < 4:
-            r = self.rotation_b[0]+1
-            self.rotation_b = ((self.rotation_b[0]+1), self.rotation_b[1])
+        if self.block.rotation_b[0]+1 < 4:
+            r = self.block.rotation_b[0]+1
+            self.block.rotation_b = ((self.block.rotation_b[0]+1), self.block.rotation_b[1])
         else:
             r = 0
-            self.rotation_b = (0, self.rotation_b[1])
+            self.block.rotation_b = (0, self.block.rotation_b[1])
 
 
-        next = self.rotations[r]
-        y2 = -1
-        x2 = -1
-
-        for y in range(block_y,(block_y+4)):
-            y2 = y2+1
-            for x in range(block_x,(block_x+5)):
-                x2 = x2+1
-                if self.map[y][x] == 2 and next[y2][x2] == 1:
-                    self.rotation_b = old
-                    return
-            x2 = -1
+        next = self.block.rotations[r]
+        error = self.error_check(self.block.rotation_b[1],next)
+        if error:
+            self.block.rotation_b = old
+            return
         
-        for y in range(0,20):
-            for x in range(0,10):
-                if self.map[y][x] == 1:
-                    self.map[y][x] = 0
-        
-        y2 = -1
-        x2 = -1
+        self.clear_stage(self.map)
+        self.insert_block(self.block.rotation_b[1], next)
 
-        for y in range(block_y,(block_y+4)):
-            y2 = y2+1
-            for x in range(block_x,(block_x+5)):
-                x2 = x2+1
-                if next[y2][x2] == 3:
-                   continue 
-                if self.map[y][x] == 2:
-                    continue
-                self.map[y][x] = next[y2][x2]
-            x2 = -1
-        
         if move:
             self.move_block(dir)
+
+    def error_check(self,rotation_b,block):
+        check_map = []
+        over = 0
+        for row in self.map:
+            check_map.append(row[:])
+        self.clear_stage(check_map)
+
+        y2 = -1
+        x2 = -1
+        if rotation_b[1] == 0:
+            rotation_b = (rotation_b[0], 5)
+        if rotation_b[1]-5 < 0:
+            over = -(rotation_b[1] - 5)
+        for y in range(0,4):
+            for x in range(0,over):
+                if block[y][x] == 1:
+                    return True
+
+        for y in range(rotation_b[0],(rotation_b[0]+4)):
+            y2 = y2+1
+            for x in range(rotation_b[1]-5+over,(rotation_b[1])):
+                x2 = x2+1
+                if check_map[y][x] == 2 and block[y2][x2] == 1:
+                    return True
+            x2 = -1
+        return False
+        

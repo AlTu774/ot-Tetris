@@ -7,6 +7,7 @@ class GameLoop():
     stage: Luokka saa pelikentän johon muutokset tehdään."""
     def __init__(self, stage):
         self.stage = stage
+        self.drop = False
 
     def events(self):
         """Käy läpi pelaajaan syötteen."""
@@ -20,4 +21,11 @@ class GameLoop():
                     self.stage.move_block("L")
                 if event.key == pygame.K_UP:
                     self.stage.rotate_block()
+                if event.key == pygame.K_DOWN:
+                    self.drop = True
+                if event.key == pygame.K_x:
+                    self.stage.switch_block()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_DOWN:
+                    self.drop = False
                 

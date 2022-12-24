@@ -20,3 +20,8 @@ class Clock():
             pygame.time.get_ticks(): ajan sekunneissa.
         """
         return pygame.time.get_ticks()
+    
+    def adjust_speed(self, speed):
+        if (self.get_ticks() - start_time) > speed:
+            stage.drop_block()
+            start_time = self.get_ticks()
