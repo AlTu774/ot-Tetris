@@ -22,6 +22,14 @@ Peliä testataan komennolla:
 ```bash
 poetry run invoke test
 ```
+Testikattavuusraportin saa komennolla:
+```bash
+poetry run invoke coverage-report
+```
+Pylint tarkistukset voi suorittaa komennolla:
+```bash
+poetry run invoke lint
+```
 ## Dokumentaatio
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Arkkitehtuurikuvaus](./dokumentaatio/arkkitehtuuri.md)
