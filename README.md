@@ -10,6 +10,12 @@ poetry install
 ```bash
 poetry run invoke start
 ```
+### Miten peliä pelataan:
+- Pelissä palikoita voidaan liikutella oikealle tai vasemmalle nuolinäppäimillä.
+- Kun painaa ylös -nuolinäppäintä, palikka kääntyy.
+- Alas -nuolinäppäintä pohjaan painamalla palikka tippuu nopeammin.
+- Painamalla x -näppäintä palikan voi vaihtaa talteen "hold" -kenttään.
+- Game over -ruudussa halutun vaihtoehdon voi vahvistaa painamalla enter -näppäintä.
 
 ## Dokumentaatio
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
