@@ -2,7 +2,17 @@ import pygame
 import random
 
 class Blocks():
-    """Luokka, jossa on kaikki eri palikoiden muodot nimetty: I,T,Z,S,L,J ja O."""
+    """Luokka, jossa on kaikki eri palikoiden muodot nimetty: I,T,Z,S,L,J ja O.
+    Attributes:
+            spare: Lista joka sisältää vara palikan.
+
+            rotation_b: Eli rotation block, jota käytetään palikan sijainnin muistamiseen kentässä,
+            ja palikan kääntämiseen.
+        
+            rotations: Sisältää palikan eri asennot ja tiedon sen hetkisestä asennosta.
+
+            spare: Vara-palikan lista.
+            """
     def __init__(self):
         self.I =[[[3,0,1,0,0],
         [0,0,1,0,0],
@@ -125,17 +135,14 @@ class Blocks():
 
         self.spare = []
         self.rotation_b = (0, (0,0))
-        self.rotations = []
-
-        
+        self.rotations = []        
     
     def generate_random_block(self):
         """Tuottaa uuden palikan valitsemalla sen satunnaisesti listasta.
-        
         Returns:
             new_block: Palikka, jonka muodot on matriiseina listassa.
         """
-        list = [self.I, self.J, self.L, self.S, self.T, self.Z, self.O]
+        list = [(self.I, "cyan"), (self.J, "blue"), (self.L, "orange"), (self.S, "green"), (self.T, "purple"), (self.Z, "red"), (self.O, "yellow")]
         pick = random.randint(0,6)
         new_block = list[pick]
         return new_block

@@ -35,24 +35,33 @@ class Stage():
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]]
 
-        self.rotation_b = (0, (0,0))
-        self.rotations = []
+        self.game_over = False
         self.block = Blocks()
+        self.color1 = None
+        self.color2 = None
     
     def add_new_block(self):
         """Lisää uuden palikan kenttään."""
-        block = self.block.generate_random_block()
+        block1 = self.block.generate_random_block()
+        block = block1[0]
+        self.color1 = block1[1]
+        error = self.error_check((0,8),block[0])
+        if error:
+            self.game_over = True
         for y in range(0,4):
             for x in range(0,5):
                 if block[0][y][x] == 3:
                     self.block.rotation_b = (0,(y, (x+5+3)))
                 else:
-                    self.map[y][x+3] = block[0][y][x]
+                    if error != True:
+                        self.map[y][x+3] = block[0][y][x]
         self.block.rotations = block
     
     def switch_block(self):
+        """Vaihtaa palikan varapalikkaa."""
         if self.block.spare == []:
             self.block.spare = self.block.rotations
+            self.color2 = self.color1
             self.clear_stage(self.map)
             self.add_new_block()
 
@@ -60,6 +69,7 @@ class Stage():
             old_block = self.block.rotations
             new_block = self.block.spare
             rotationb = self.block.rotation_b
+            old_color = self.color1
             if self.block.rotation_b[1][1] > 10:
                 rotationb = (self.block.rotation_b[0], (self.block.rotation_b[1][0],10))
             if self.block.rotation_b[1][0] > 16:
@@ -67,7 +77,9 @@ class Stage():
             error = self.error_check(rotationb[1],new_block[0])
             if error:
                 return
-            
+
+            self.color1 = self.color2
+            self.color2 = old_color
             self.block.spare = old_block
             self.block.rotations = new_block
             self.block.rotation_b = rotationb
@@ -77,8 +89,11 @@ class Stage():
                 self.move_block("R")
 
 
-    
     def insert_block(self,rotation_b,block):
+        """Sijoittaa palikan kenttään.
+        Args:
+            rotation_b: sisältää palikan koordinaatin.
+            block: palikka listana."""
         move = False
         y2 = -1
         x2 = -1
@@ -100,11 +115,11 @@ class Stage():
             
         if move:
             self.move_block("L")
-
-            
     
     def drop_block(self):
-        """Tiputtaa palikkaa."""
+        """Tiputtaa palikkaa.
+        Returns:
+            score: Pisteet joita saadaan jos tiputettu palikka jäätyy."""
         for y in range(19,-1,-1):
             for x in range(0,10):
                 if self.map[y][x] == 1:
@@ -164,7 +179,9 @@ class Stage():
             self.block.move_rotation_b("L")          
 
     def freeze_block(self):
-        """Pysäyttää palikan paikoilleen."""
+        """Pysäyttää palikan paikoilleen.
+        Returns:
+            self.check_rows: palauttaa funktion check_rows laskemat pisteet."""
         for y in range(0,20):
             for x in range(0,10):
                 if self.map[y][x] == 1:
@@ -172,6 +189,10 @@ class Stage():
         return self.check_rows()
     
     def check_rows(self):
+        """Tarkistaa onko kentässä rivejä jotka ovat täynä.
+        Returns:
+            score: palauttaa saatujen pisteiden määrän.
+        """
         score = 1
         for y in range(19,0,-1):
             while self.map[y] == [2,2,2,2,2,2,2,2,2,2]:
@@ -182,6 +203,9 @@ class Stage():
         return score
     
     def clear_stage(self,map1):
+        """Tyhjentää kentän siinä olevasta palikasta.
+        Args:
+            map1: kenttä josta palikka poistetaan."""
         for y in range(0,20):
             for x in range(0,10):
                 if map1[y][x] == 1:
@@ -214,7 +238,6 @@ class Stage():
             r = 0
             self.block.rotation_b = (0, self.block.rotation_b[1])
 
-
         next = self.block.rotations[r]
         error = self.error_check(self.block.rotation_b[1],next)
         if error:
@@ -228,6 +251,12 @@ class Stage():
             self.move_block(dir)
 
     def error_check(self,rotation_b,block):
+        """Tarkistaa voiko palikkaa lisätä kenttään tiettyyn kohtaan.
+        Args:
+            rotation_b: palikan sijoittamiseen käytettävä koordinaatti.
+            block: palikka.
+        Returns:
+            True tai False, riippuen siitä voiko palikkaa sijoittaa vai ei."""
         check_map = []
         over = 0
         for row in self.map:
@@ -253,4 +282,29 @@ class Stage():
                     return True
             x2 = -1
         return False
-        
+    
+    def retry(self):
+        self.map = [[0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0]]
+        self.block = Blocks()
+        self.color1 = None
+        self.color2 = None
+        self.add_new_block()

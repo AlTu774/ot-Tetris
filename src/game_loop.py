@@ -28,4 +28,16 @@ class GameLoop():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
                     self.drop = False
-                
+    
+    def game_over(self):
+        """Game over -näytössä tehtävät valinnat."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    return "no"
+                if event.key == pygame.K_UP:
+                    return "yes"
+                if event.key == pygame.K_RETURN:
+                    return True

@@ -5,8 +5,8 @@ from stage import Stage
 
 class Test_Block(unittest.TestCase):
     def setUp(self):
-        stage = Stage()
-        stage.map = [[0,0,0,0,0,0,0,0,0,0],
+        self.stage = Stage()
+        self.stage.map = [[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,1,0,0,0,0,0],
         [0,0,0,1,1,1,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -30,28 +30,6 @@ class Test_Block(unittest.TestCase):
 
 
     def test_blocks_fall_correctly(self):
-        stage = Stage()
-        stage.map = [[0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,1,0,0,0,0,0],
-        [0,0,0,1,1,1,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0]]
-
         correct = [[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,1,0,0,0,0,0],
@@ -73,15 +51,13 @@ class Test_Block(unittest.TestCase):
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]]
 
-        stage.drop_block()
+        self.stage.drop_block()
 
-        self.assertEqual(correct, stage.map)
+        self.assertEqual(correct, self.stage.map)
     
-    def test_blocks_moves_correctly(self):
-        stage = Stage()
-        stage.map = [[0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,1,0,0,0,0,0],
-        [0,0,0,1,1,1,0,0,0,0],
+    def test_freeze_correctly(self):
+        test1 = Stage()
+        test1.map = [[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -97,9 +73,21 @@ class Test_Block(unittest.TestCase):
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1]]
+
+        test1.drop_block()
+
+        test_map_correct = [
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]]
 
+        self.assertEqual(test1.map[17:19], test_map_correct)
+
+    
+    def test_blocks_moves_correctly(self):
         correct = [[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,1,0,0,0,0,0,0],
         [0,0,1,1,1,0,0,0,0,0],
@@ -121,9 +109,9 @@ class Test_Block(unittest.TestCase):
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]]
 
-        stage.move_block("L")
+        self.stage.move_block("L")
 
-        self.assertEqual(correct, stage.map)
+        self.assertEqual(correct, self.stage.map)
 
         correct2 =[[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,1,0,0,0,0,0],
@@ -146,5 +134,5 @@ class Test_Block(unittest.TestCase):
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0]]
 
-        stage.move_block("R")
-        self.assertEqual(correct2, stage.map)
+        self.stage.move_block("R")
+        self.assertEqual(correct2, self.stage.map)
