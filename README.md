@@ -17,6 +17,11 @@ poetry run invoke start
 - Painamalla x -näppäintä palikan voi vaihtaa talteen "hold" -kenttään.
 - Game over -ruudussa halutun vaihtoehdon voi vahvistaa painamalla enter -näppäintä.
 
+### Miten peliä testataan:
+Peliä testataan komennolla:
+```bash
+poetry run invoke test
+```
 ## Dokumentaatio
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmaarittely.md)
 - [Arkkitehtuurikuvaus](./dokumentaatio/arkkitehtuuri.md)
