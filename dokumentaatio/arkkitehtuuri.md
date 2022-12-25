@@ -13,10 +13,11 @@ class Stage{
       move_block(dir)
       freeze_block()
       rotate_block()
-      move_rotation_b()
+      ...
 	}
 class Blocks{
       generate_random_block()
+      move_rotation_b()
 	}
 ```
 
